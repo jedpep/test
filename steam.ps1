@@ -1,4 +1,5 @@
-$installDir = "C:\Users\$Env:UserName\Steam"
+$userFolder = "C:\Users\$Env:UserName"
+$installDir = "$userFolder\Steam"
 New-Item -ItemType Directory -Path $installDir -Force
 
 $setupFile = "SteamSetup.exe"
@@ -26,7 +27,7 @@ if (Test-Path $setupFile) {
 Write-Host "Creating shortcut"
 
 $WshShell = New-Object -COMObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$Env:UserName\Desktop\Steam.lnk")
+$Shortcut = $WshShell.CreateShortcut("$userFolder\Desktop\Steam.lnk")
 $Shortcut.TargetPath = "$steamExe"
 $Shortcut.Save()
 
