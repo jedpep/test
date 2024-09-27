@@ -34,7 +34,7 @@ $Shortcut.TargetPath = "$steamExe"
 $Shortcut.Save()
 
 $batchFilePath = Join-Path -Path "$desktop\Steam" -ChildPath "uninstall.bat"
-$batchCommand = "set __COMPAT_LAYER=RUNASINVOKER && \"$installDir\\uninstall.exe\""
+$batchCommand = "set __COMPAT_LAYER=RUNASINVOKER && `"$installDir\uninstall.exe`""
 Set-Content -Path $batchFilePath -Value $batchCommand
 
 Write-Host "Steam setup is complete!"
