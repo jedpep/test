@@ -1,6 +1,8 @@
 $userFolder = "C:\Users\$Env:UserName"
+$desktop = "$userFolder\Desktop"
 $installDir = "$userFolder\Steam"
 New-Item -ItemType Directory -Path $installDir -Force
+New-Item -ItemType Directory -Path "$desktop\Steam" -Force
 
 $setupFile = "SteamSetup.exe"
 Invoke-RestMethod "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe" -OutFile $setupFile
@@ -27,9 +29,13 @@ if (Test-Path $setupFile) {
 Write-Host "Creating shortcut"
 
 $WshShell = New-Object -COMObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$userFolder\Desktop\Steam.lnk")
+$Shortcut = $WshShell.CreateShortcut("$desktop\Steam\Steam.lnk")
 $Shortcut.TargetPath = "$steamExe"
 $Shortcut.Save()
+
+$batchFilePath = Join-Path -Path "$desktop\Steam" -ChildPath "uninstall.bat"
+$batchCommand = 'set __COMPAT_LAYER=RUNASINVOKER && uninstall.exe'
+Set-Content -Path $batchFilePath -Value $batchCommand
 
 Write-Host "Steam setup is complete!"
 
