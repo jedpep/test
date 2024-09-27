@@ -12,17 +12,9 @@ while (-not (Test-Path $steamExe)) {
     Start-Sleep -Seconds 1
 }
 
+Write-Host "Installing steam..."
 $download = cmd.exe /c "$steamExe"
 Write-Host $download
-
-if ($remainingOutput) {
-    Write-Host $remainingOutput
-}
-if ($remainingError) {
-    Write-Host "ERROR: $remainingError" -ForegroundColor Red
-}
-
-$process.WaitForExit()
 
 if (Test-Path $setupFile) {
     Remove-Item $setupFile -Force
@@ -31,6 +23,9 @@ if (Test-Path $setupFile) {
     Write-Host "Steam setup file not found for deletion."
 }
 
-Start-Sleep -Seconds 10
+$WshShell = New-Object -COMObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("$Env:UserName\Desktop\Steam.lnk")
+$Shortcut.TargetPath = "$steamExe"
+$Shortcut.Save()
 
-exit
+Write-Host "Steam setup is complete!"
