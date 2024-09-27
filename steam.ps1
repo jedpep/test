@@ -26,7 +26,7 @@ if (Test-Path $setupFile) {
     Write-Host "Steam setup file not found for deletion."
 }
 
-Write-Host "Creating shortcut"
+Write-Host "Creating shortcuts"
 
 $WshShell = New-Object -COMObject WScript.Shell
 $Shortcut = $WshShell.CreateShortcut("$desktop\Steam\Steam.lnk")
